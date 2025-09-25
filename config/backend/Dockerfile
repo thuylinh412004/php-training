@@ -30,6 +30,12 @@ RUN apt-get update \
 RUN pecl install xdebug \
     && docker-php-ext-enable xdebug
 
+#  Install Redis extension
+RUN pecl install redis \
+    && docker-php-ext-enable redis
+
+RUN apt-get update && apt-get install -y redis-tools
+
 ENV APACHE_DOCUMENT_ROOT /var/www/html
 
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
