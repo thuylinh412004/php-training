@@ -1,6 +1,7 @@
 <?php
 require_once 'configs/database.php';
 
+<<<<<<< HEAD
 abstract class BaseModel
 {
     // Database connection
@@ -8,6 +9,13 @@ abstract class BaseModel
 
     public function __construct()
     {
+=======
+abstract class BaseModel {
+    // Database connection
+    protected static $_connection;
+
+    public function __construct() {
+>>>>>>> fe7b58aa9dd0a5f45ce3883cc052d3d25374208f
 
         if (!isset(self::$_connection)) {
             self::$_connection = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT);
@@ -16,14 +24,22 @@ abstract class BaseModel
                 exit();
             }
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> fe7b58aa9dd0a5f45ce3883cc052d3d25374208f
     }
 
     /**
      * Query in database
      * @param $sql
      */
+<<<<<<< HEAD
     protected function query($sql)
     {
+=======
+    protected function query($sql) {
+>>>>>>> fe7b58aa9dd0a5f45ce3883cc052d3d25374208f
 
         $result = self::$_connection->query($sql);
         return $result;
@@ -33,8 +49,12 @@ abstract class BaseModel
      * Select statement
      * @param $sql
      */
+<<<<<<< HEAD
     protected function select($sql)
     {
+=======
+    protected function select($sql) {
+>>>>>>> fe7b58aa9dd0a5f45ce3883cc052d3d25374208f
         $result = $this->query($sql);
         $rows = [];
         if (!empty($result)) {
@@ -50,8 +70,12 @@ abstract class BaseModel
      * @param $sql
      * @return mixed
      */
+<<<<<<< HEAD
     protected function delete($sql)
     {
+=======
+    protected function delete($sql) {
+>>>>>>> fe7b58aa9dd0a5f45ce3883cc052d3d25374208f
         $result = $this->query($sql);
         return $result;
     }
@@ -61,8 +85,12 @@ abstract class BaseModel
      * @param $sql
      * @return mixed
      */
+<<<<<<< HEAD
     protected function update($sql)
     {
+=======
+    protected function update($sql) {
+>>>>>>> fe7b58aa9dd0a5f45ce3883cc052d3d25374208f
         $result = $this->query($sql);
         return $result;
     }
@@ -71,12 +99,17 @@ abstract class BaseModel
      * Insert statement
      * @param $sql
      */
+<<<<<<< HEAD
     protected function insert($sql)
     {
+=======
+    protected function insert($sql) {
+>>>>>>> fe7b58aa9dd0a5f45ce3883cc052d3d25374208f
         $result = $this->query($sql);
         return $result;
     }
 
+<<<<<<< HEAD
     /**
      * SELECT prepared statement (safe)
      * @param string $sql
@@ -153,4 +186,6 @@ abstract class BaseModel
         }
         call_user_func_array([$stmt, 'bind_param'], $bind_names);
     }
+=======
+>>>>>>> fe7b58aa9dd0a5f45ce3883cc052d3d25374208f
 }

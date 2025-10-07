@@ -2,6 +2,7 @@
 
 require_once 'BaseModel.php';
 
+<<<<<<< HEAD
 class UserModel extends BaseModel
 {
 
@@ -9,15 +10,28 @@ class UserModel extends BaseModel
     {
         $sql = 'SELECT * FROM users WHERE id = ?';
         $user = $this->selectPrepared($sql, 'i', [$id]);
+=======
+class UserModel extends BaseModel {
+
+    public function findUserById($id) {
+        $sql = 'SELECT * FROM users WHERE id = '.$id;
+        $user = $this->select($sql);
+>>>>>>> fe7b58aa9dd0a5f45ce3883cc052d3d25374208f
 
         return $user;
     }
 
+<<<<<<< HEAD
     public function findUser($keyword)
     {
         $sql = 'SELECT * FROM users WHERE user_name LIKE ? OR user_email LIKE ?';
         $kw = "%{$keyword}%";
         $user = $this->selectPrepared($sql, 'ss', [$kw, $kw]);
+=======
+    public function findUser($keyword) {
+        $sql = 'SELECT * FROM users WHERE user_name LIKE %'.$keyword.'%'. ' OR user_email LIKE %'.$keyword.'%';
+        $user = $this->select($sql);
+>>>>>>> fe7b58aa9dd0a5f45ce3883cc052d3d25374208f
 
         return $user;
     }
@@ -28,6 +42,7 @@ class UserModel extends BaseModel
      * @param $password
      * @return array
      */
+<<<<<<< HEAD
     public function auth($userName, $password)
     {
         // Lấy user theo tên (LIMIT 1)
@@ -56,6 +71,14 @@ class UserModel extends BaseModel
         }
 
         return [];
+=======
+    public function auth($userName, $password) {
+        $md5Password = md5($password);
+        $sql = 'SELECT * FROM users WHERE name = "' . $userName . '" AND password = "'.$md5Password.'"';
+
+        $user = $this->select($sql);
+        return $user;
+>>>>>>> fe7b58aa9dd0a5f45ce3883cc052d3d25374208f
     }
 
     /**
@@ -63,10 +86,17 @@ class UserModel extends BaseModel
      * @param $id
      * @return mixed
      */
+<<<<<<< HEAD
     public function deleteUserById($id)
     {
         $sql = 'DELETE FROM users WHERE id = ?';
         return $this->executePrepared($sql, 'i', [$id]);
+=======
+    public function deleteUserById($id) {
+        $sql = 'DELETE FROM users WHERE id = '.$id;
+        return $this->delete($sql);
+
+>>>>>>> fe7b58aa9dd0a5f45ce3883cc052d3d25374208f
     }
 
     /**
@@ -74,6 +104,7 @@ class UserModel extends BaseModel
      * @param $input
      * @return mixed
      */
+<<<<<<< HEAD
     public function updateUser($input)
     {
         $sqlParts = [];
@@ -103,6 +134,15 @@ class UserModel extends BaseModel
         $sql = 'UPDATE users SET ' . implode(', ', $sqlParts) . ' WHERE id = ?';
 
         $user = $this->executePrepared($sql, $types, $params);
+=======
+    public function updateUser($input) {
+        $sql = 'UPDATE users SET 
+                 name = "' . mysqli_real_escape_string(self::$_connection, $input['name']) .'", 
+                 password="'. md5($input['password']) .'"
+                WHERE id = ' . $input['id'];
+
+        $user = $this->update($sql);
+>>>>>>> fe7b58aa9dd0a5f45ce3883cc052d3d25374208f
 
         return $user;
     }
@@ -112,11 +152,19 @@ class UserModel extends BaseModel
      * @param $input
      * @return mixed
      */
+<<<<<<< HEAD
     public function insertUser($input)
     {
         $sql = 'INSERT INTO users (name, password) VALUES (?, ?)';
         $hash = password_hash($input['password'], PASSWORD_DEFAULT);
         $user = $this->insertPrepared($sql, 'ss', [$input['name'], $hash]);
+=======
+    public function insertUser($input) {
+        $sql = "INSERT INTO `app_web1`.`users` (`name`, `password`) VALUES (" .
+                "'" . $input['name'] . "', '".md5($input['password'])."')";
+
+        $user = $this->insert($sql);
+>>>>>>> fe7b58aa9dd0a5f45ce3883cc052d3d25374208f
 
         return $user;
     }
@@ -126,6 +174,7 @@ class UserModel extends BaseModel
      * @param array $params
      * @return array
      */
+<<<<<<< HEAD
     public function getUsers($params = [])
     {
         //Keyword
@@ -136,10 +185,28 @@ class UserModel extends BaseModel
         } else {
             $sql = 'SELECT * FROM users';
             $users = $this->selectPrepared($sql);
+=======
+    public function getUsers($params = []) {
+        //Keyword
+        if (!empty($params['keyword'])) {
+            $sql = 'SELECT * FROM users WHERE name LIKE "%' . $params['keyword'] .'%"';
+
+            //Keep this line to use Sql Injection
+            //Don't change
+            //Example keyword: abcef%";TRUNCATE banks;##
+            $users = self::$_connection->multi_query($sql);
+
+            //Get data
+            $users = $this->query($sql);
+        } else {
+            $sql = 'SELECT * FROM users';
+            $users = $this->select($sql);
+>>>>>>> fe7b58aa9dd0a5f45ce3883cc052d3d25374208f
         }
 
         return $users;
     }
+<<<<<<< HEAD
 
     /**
      * Update user's password directly (helper)
@@ -153,3 +220,6 @@ class UserModel extends BaseModel
         return $this->executePrepared($sql, 'si', [$newHash, $id]);
     }
 }
+=======
+}
+>>>>>>> fe7b58aa9dd0a5f45ce3883cc052d3d25374208f
